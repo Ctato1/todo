@@ -21,7 +21,7 @@ export default function AddTodoForm ({onSubmit}:AddTodoFormProps) {
     <form className="flex pb-4" onSubmit={handleSubmit}>
         <input type="text"  
         placeholder="Enter TODO"
-        className="rounded-s-md grow border border-gray-400 p-2 outline-none"
+        className="rounded-s-md grow border border-gray-400 p-2 outline-none placeholder:italic"
         value={value}
         onChange={(e)=>setValue(e.target.value)}
         />
