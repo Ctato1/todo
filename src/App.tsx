@@ -1,17 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { todoData } from "./data/todos";
 import AddTodoForm from "./components/AddTodoForm";
 import TodoList from "./components/TodoList";
 import TodoSummary from "./components/TodoSummary";
+import { Todo } from "./types/todo";
 
 function App() {
-  const [todos, setTodos] = useState(todoData)
-  const [animation, setAnimatin] = useState(Number)
+  // const localTodos=JSON.parse(localStorage.getItem('todos') || "[]");
+  const [todos, setTodos] = useState(()=>{
+    const localTodos:Todo[] =JSON.parse(localStorage.getItem('todos') || "[]");
+    return localTodos.length > 0 ? localTodos : todoData
+  })
+  const [animation, setAnimatin] = useState<number>(0)
+
+  useEffect(() => {
+   
+    localStorage.setItem('todos', JSON.stringify(todos))
+    console.log(todos);
+    
+  }, [todos])
   
 
-  function setTodoCompleted(id:number,completed:boolean){
-    setTodos(prev=> prev.map(item=>(item.id === id ? {...item,completed} : item)))
-  }
+  function setTodoCompleted(id: number, completed: boolean) {
+    setTodos(prev => prev.map(item => (item.id === id ? { ...item, completed } : item)));
+}
   function setInputValue(title: string){
     setTodos(prev=> [{title:title,completed:false,id:Date.now()}, ...prev])
   }
