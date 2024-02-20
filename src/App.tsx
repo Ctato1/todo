@@ -2,10 +2,12 @@ import { useState } from "react";
 import { todoData } from "./data/todos";
 import AddTodoForm from "./components/AddTodoForm";
 import TodoList from "./components/TodoList";
+import TodoSummary from "./components/TodoSummary";
 
 function App() {
   const [todos, setTodos] = useState(todoData)
   const [animation, setAnimatin] = useState(Number)
+  
 
   function setTodoCompleted(id:number,completed:boolean){
     setTodos(prev=> prev.map(item=>(item.id === id ? {...item,completed} : item)))
@@ -23,6 +25,10 @@ function App() {
 
   }
 
+  function deleteAllTodo(){
+    setTodos(prev=> prev.filter(todo => !todo.completed))
+  }
+
   return (
     <main className="py-10  h-screen space-y-5">
       <h1 className="font-bold text-3xl text-center">Your Todos</h1>
@@ -30,6 +36,7 @@ function App() {
       <AddTodoForm onSubmit={setInputValue}/>
        <TodoList todos={todos} onCompleteChange={setTodoCompleted} onDelete={deleteTodos} animation={animation}/>
       </div>
+      <TodoSummary todos={todos} deleteAllTodo={deleteAllTodo}/>
     </main>
   );
 }
